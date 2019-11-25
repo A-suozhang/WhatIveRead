@@ -83,3 +83,10 @@
 
 * Combine Lots Of Data AUG
 * [Blog](http://a-suozhang.xyz/2019/11/12/UDA/)
+
+### [EnAET: Self-Trained Ensemble AutoEncoding Transformations](https://arxiv.org/abs/1911.09265)
+
+* [Code](https://github.com/wang3702/EnAET)
+* Self-Ensmeble + AutoEncodingTransform + MixMatch
+* Amazing Results with extreme few label
+
