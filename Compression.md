@@ -42,6 +42,10 @@
 
 ### Implemention
 * Hybrid FP8: 4 Exponential bit + 3 Mantisa BIT (5-2 For BackProp)
+* Also Dynamic Weight Range Is Too Big, So Using Weight-Clipping
+* When Last FC Layer is big(in NLP), Softmax Could Blur(Biggest Value Quantzied To Same Value)
+* 2 Additional Modification
+	* BN: 
 
 ### Fracs
 * Other Methods(Weight Buffer)
@@ -49,3 +53,21 @@
 	* FP8 Training with Stochastic Rounding - 16bit BUFFER
 * BN Params Are The Main Problem For Acc Decay in Low-bit Training
 
+## [Training DNN with 8-bit Floating Point Numbers]()i
+
+### Abstract 
+* 8 Bit Training with 8-Bit Floating Point
+	* FP8 (1,5,2) - FP16 (1,6,9)
+* Weight Decay Buffer 16 bit (Before this work 32 bit accul)
+* Special Technique
+	* Chunk-Based Accumul (Without Which Fail to Converge)
+		* 8bit Mult & 16 Bit ADD
+	* Floating Point Stochastic Rounding
+![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191203095523.png)
+
+### Fracs
+* Swamping: Change to small for 8bit to represent
+* Nearest Rounding discard the LSB infromation
+* Last Layer Sensitive to Quantize (Error is amplified as exponential through Softmax
+* Input Image are senstive(the color is represented in 8-bit but FP8 Not Enough Mantissa Bit For 8))
+* Computing Pattern : GEMM(Matrix Mul) & AXPY(3 Vector Add)-L2reg-Momentum-WeightUpdate
