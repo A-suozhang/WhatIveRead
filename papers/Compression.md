@@ -73,3 +73,37 @@
 * Last Layer Sensitive to Quantize (Error is amplified as exponential through Softmax
 * Input Image are senstive(the color is represented in 8-bit but FP8 Not Enough Mantissa Bit For 8))
 * Computing Pattern : GEMM(Matrix Mul) & AXPY(3 Vector Add)-L2reg-Momentum-WeightUpdate
+
+## [Qunatization and Training For Efficient Interger Arithmetic-Only Inference](https://arxiv.org/pdf/1712.05877.pdf)
+
+* CVPR2018
+
+## Abstract 
+* Challenging MobileNet Instead Of Redundant VGG & AlexNet
+* Contribution
+	* Quantize Scheme: 8bit WA
+	* Quantized-Inference framework on CPU
+	* Quantized Training Framework as Co-Design (**WE NEED**) 
+
+## Implemention
+* Constant S(Scale-float) Z(Zero Point) q(quantizaed Value) r(real Value)
+	* r = S(q-Z)
+* Quantize
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191204160613.png)
+* Translate to Integer Multplication
+	* Calculating Float Scale in Advance
+* Fusing The Layer Together, (Merge Bias Add & Activation into Matmul)
+	* **Floating Scale**!
+* Training
+	* Learning Q-Range(Scale & Zero-Point)
+		* Weights [min,max]
+		* Using EMA (Also Disable At Start to gain a Stable State)
+* Batch-Norm Folding
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191204162634.png)
+
+
+## Fracs
+* Float Training & Finetune Fails For Small Network
+	* Outlier Weight Values
+	* largeDifference in output channel distribution
+* 
