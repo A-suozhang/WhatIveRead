@@ -25,13 +25,13 @@
 
 ## A. Post-Training Quantization
 
-> 该类方法最大的特点就是利用已经训练好的模型进行压缩，与Quantized-Aware Training相对比有几分 2-Stage的意味，优势在于可以利用已经基本确定的参数分布去分析，采取量化策略
+> 该类方法最大的特点就是利用已经训练好的模型进行压缩，与Quantized-Aware Training相对比有几分 2-Stage的意味，优势在于可以利用已经基本确定的参数分布去分析，采取量化策略,对大模型比较有效，但是小模型会崩
 
 * Deep Compression
   * 利用了参数分布的知识，采用K-Means
 * [Fixed Point Quantization of Deep Convolutional Network](https://arxiv.org/abs/1511.06393)
-  * 高通 基于SQNR
-* [Entropy Constraint Scalar Quantization](https://openreview.net/pdf?id=rJ8uNptgl)
+  * 高通 基于SQNR,前Deep Compression的上古时期，没有什么大的亮点
+* [Entropy Constraint Scalar Quantization](https://www.mdpi.com/1099-4300/18/12/449)
   * 对每一个参数的Gradient做泰勒展开并且舍弃高阶项，化简得到哪些参数对最终Loss重要，以此作为剪枝或者量化的依据(选取聚类中心)
   * ~~也可以作为剪枝的依据~~
   * 和剪枝的这篇，有一定相关性[Designing Energy-Efficient Convolutional Neural Networks using Energy-Aware Pruning](https://arxiv.org/abs/1611.05128)
@@ -47,6 +47,7 @@
   * [Retraining-Based Iterative Weight Quantization for Deep Neural Networks](https://arxiv.org/abs/1805.11233)
   * ⭐[Post training 4-bit quantization of convolutional networks for rapid-deployment(NIPS 2019)](https://arxiv.org/abs/1810.05723)
     * Intel, No Need To Finetune On Full Dataset
+    * 3 Methods,一些理论推导得到每channel比特数的分配以及ClippingValue可以依据已有的参数分布算出来
   * [And the Bit Goes Down: Revisiting the Quantization of Neural Networks](https://arxiv.org/abs/1907.05686)
 
 
@@ -69,7 +70,9 @@
   * 16bit Training
 * Other Works
   * [Accurate & Efficient 2-bit QNN](https://www.semanticscholar.org/paper/ACCURATE-AND-EFFICIENT-2-BIT-QUANTIZED-NEURAL-Choi-Venkataramani/c3cb27f9ef7176658f37b607e75cc2c37f5e0ea8)
-    * Quantize with Shortcut / with PACT
+    * PACT + SAWB (Statistics-Aware Weight bining)
+    * 文中有Analytic分析PACT和relu的表示能力一致
+
   * [Training Quantized Network with Auxiliary Gradient Module](https://arxiv.org/abs/1903.11236)
     * 额外的fullPrecision梯度模块(解决residue的skip connection不好定的问题，目的前向完全fix point)，有几分用一个FP去杠杆起低比特网络的意味
   * [Mixed Precision Training With 8-bit Floating Point](https://arxiv.org/abs/1905.12334)
@@ -112,6 +115,8 @@
   * 依赖大batch对存储要求高
   * 随机rounding，硬件难实现
 
+### 一套经典的建模方式
+* 见Post Training 4 bit 文章的阅读中(后续Merge到这里)
 
 
 ### Stochastic Roudning Related
@@ -137,9 +142,6 @@
     * 然后把他当作常数来计算
 
 
-
-
-
 # Genre
 
 ## Binary及其延申(极低比特)
@@ -153,8 +155,9 @@
 * [ABCNet](https://arxiv.org/abs/1711.11294)
 * [WRPN-Intel-ICLR2018](https://openreview.net/pdf?id=B1ZvaaeAZ)
 * [DoReFaNet](https://arxiv.org/pdf/1606.06160.pdf)
-* [TTQ(Trained Ternary Quantization)](https://arxiv.org/pdf/1706.02379.pdf)
+* [TTQ(Trained Ternary Quantization)](https://arxiv.org/pdf/1612.01064.pdf)
 * [Simultaneously Optimizing Weight and Quantizer of Ternary Neural Network using Truncated Gaussian Approximation](https://arxiv.org/abs/1810.01018)
+* [Training Competitive Binary Neural Networks from Scratch](https://arxiv.org/abs/1812.01965)
 * ~~最后这篇文章放在这里只是为了告诉大家这个领域到了2019年还在蓬勃发展~~
 
 ## 量化方法（低比特）
@@ -187,6 +190,38 @@
 * [Training Quantized Network with Auxiliary Gradient Module](https://arxiv.org/abs/1903.11236)
 * [Learning to Quantize Deep Networks by Optimizing Quantization Intervals with Task Loss](https://arxiv.org/abs/1808.05779)
 * [And the Bit Goes Down: Revisiting the Quantization of Neural Networks](https://arxiv.org/abs/1907.05686)
+
+# Docs
+
+> 看一下大公司主流的压缩工具都提供了什么功能
+
+## Tensorflow Lite
+
+> tf.contrib.quantize & [Tensorflow Lite](https://www.tensorflow.org/lite/guide)
+
+* 提供了一个[Post-Training-Quantize的工具](https://www.tensorflow.org/lite/performance/post_training_quantization)
+  * 看上去是很直接的Quantize没有用到什么技巧，标准数据格式之间的转变(float16/int8)  **没有自定义的数据格式**
+  * 文档中直接写到 ```If you want Higher Performance, Use Quantize-aware Training```
+  * 没有Finetune的过程？
+* [Quantize-Aware Training](https://github.com/tensorflow/tensorflow/tree/r1.14/tensorflow/contrib/quantize)
+  * 只支持部分网络结构(合理)以卷积为主，还有一些RNN
+  * 这里默认Fold了Conv和BN(我们所说的MergeConvBNs)
+  * 有一个TOCO(Tf Lite Optimizing Converter)工具可以直接将训练好的FrozenGraph转化为真正的定点模型
+
+## PyTorch
+
+> [Quantization Tool](https://pytorch.org/docs/stable/quantization.html?highlight=quantize)
+
+* 支持PerTensor和PerChannel的量化，采用带zeropoint的rounding
+* Quantize Aware Training at ```torch.nn.qat torch.nn.intrinsic.qat```
+* 提供了很多Observer
+* 支持Symmetrical和Asymmetrical的量化
+
+
+
+
+
+---
 
 # Groups (Low-Bit Training)
 
