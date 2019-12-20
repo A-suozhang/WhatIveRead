@@ -27,7 +27,8 @@ set so=10     " 光标到倒数第10行开始滚屏
 syntax on     " 语法高亮
 set number    " 显示行号
 set autochdir " 打开文件时，自动 cd 到文件所在目录
- 
+set hlsearch 
+
 " 文件类型支持
 filetype on
 filetype plugin on
@@ -144,11 +145,23 @@ let g:netrw_banner = 0
 " ------- NerdTree End ---------------
  
 " ---- Airline 
-"set laststatus=2
-"let g:airline#extensions#tabline#enabled = 0
-"let g:airline_powerline_fonts = 0
-"let g:airline_theme = "powerlineish"
+" set laststatus=2
+" let g:airline#extensions#tabline#enabled = 0
+" let g:airline_powerline_fonts = 0
+" let g:airline_theme = "powerlineish"
 " ---- Airline
  
  
 " vim: ft=vim
+
+" So I can move in insert mode
+" inoremap <C-k> <C-o>gk
+" inoremap <C-h> <Left>
+" inoremap <C-l> <Right>
+" inoremap <C-j> <C-o>gj
+
+inoremap <C-o> <Esc>o
+inoremap <C-j> <Down>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+inoremap <C-k> <Up>

@@ -251,7 +251,8 @@
 
 * [ADAM-ADMM: A Unified, Systematic Framework of Structured Weight Pruning for DNNs]()
 * ECCV 2018 (1807) 
-	* 一个很人类疑惑的现象是1905又多了一篇StructADMM和之前的几乎一样？
+	* 一个很人类疑惑的现象是1807有了一篇StructADMM和之前的几乎一样？
+	* 我看着两个应该其实一篇？
 * motivation是解决Structral Prunning的压缩率有限
 * 提出了一个Framework-SGDwithADMM,可达到多种Sparsity(Filter/Channel/Shape-Wise)
   * 也可以看作是一个Dynamic Regularization
@@ -260,11 +261,16 @@
 * 作者想要在weightprunning和parallel computation之间找到一个平衡
 	* 暂时还没看出是怎么展开的
 * 转化为Combination Constraint,设定auxilary variable,将带限制的优化问题转化为两个子问题
+	* 设定Constraint的方式
+		* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191216171452.png)
+		* 很Hard的一个方式，锁定了限制的求解空间
 	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191216104320.png)
 	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191216104334.png)
 	* 第二个Sub-Problem可以有解析解（via Euclidean Projection） 
+		* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191216171246.png)
 * discuss了几种Prune的问题抽象
 	* 解释了在这个constraint问题中是如何对weight建模的
+* 我理解对应AC，这里用ADMM的方式是分别针对不同的Sparsity形式，对Weight的Constraint做了一个限制（我理解就是很Naive的直接限制个数？感觉细节还是没有搞太清楚）
 * 提出了几个对ADMM方法使用的GuideLine： Final Refine / Balanced Prunning（同时剪Conv和FCo）
 * 分析ADMM的收敛性能
 	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191216110142.png)
@@ -289,6 +295,7 @@
 	* 将整个DNN Compression看作一个带限制的优化问题
 * WorkFlow分为2部分
 	* Offline Energy-Modelling Phase & Online Compression Phase
+		* 这个所谓的Offline和Online是否分的有道理？ 虽然实际压缩过程中意思说它的EenergyModel不会变，这个EnergyModel显然是针对设备和网络的，理论上我们对Model建模也是
 * ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191216150629.png)
 	* Bilinear Model： sj，sj+1 是Sparsity
 	* 背后的Rationale是功耗和MAC基本成线性相关？
@@ -301,6 +308,7 @@
 * 引入两个新的dual Variable Y和Z
 	* 先用传统的Proximal SGD更新W
 		* 这里需要最小化的Loss Function已经包含了Energy Bilinear Regression建模出来的那个函数
+			* 我理解只有这篇文章将我们所期望的限制条件加入了Loss函数来一起优化？别人好像只是作为ADMM中的限制而已？（因为要加入的话就必须要让这个限制函数是可导的）
 		* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191216155505.png)
 		*![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191216155111.png)
 	* 更新S (Sparsity)
@@ -313,6 +321,9 @@
 * **这样看起来这篇工作的最重要Contribution还是把调节各层的SaprsityRatio的部分Unify到了ADMM的Core Optimization当中**
 * 附录当中
 	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191216154949.png)
+* 这篇文章的一个很大的Contribution是将调整各层PrunningRatio这一问题（别的方法一般都是用启发式方法来解决的）融入了ADMM的问题建模中，合理解决了层次之间依赖的问题
+	* 虽然用了一个BiLinear模型，作者表示如果模型结构实在不能用BIlinear模型来描述的话就再用一个NN来拟合
+	* 但是它的Acc建模还是没有用一个简单的模型来表示，我们如果用了会不会被喷呢？我感觉它对Latency用一个都诚惶诚恐，对那个用就很慌
 
 
 
