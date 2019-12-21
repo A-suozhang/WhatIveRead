@@ -209,3 +209,60 @@
 
 * ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191220164603.png)
 
+
+---
+
+* 发现的几篇和我们的idea更接近的文章
+
+* [AutoPrune]()
+	* NIPS 2019
+	* 提出了别人的一些方法的hyperparam不好tune，解决方法optimize一系列的auxilary parameters而不是original weight,并为他们设计了gradient update方法
+		*　从而不需要heuristic设计一些threshold function
+	* 他的任务也不是特别明确,只是为了从一个网络不损失太多精度的前提下得到一个稀疏的架构
+	* 有一个indicator function,来软化0,1,用了类似BNN中STE的方式来保持到Mask的导数,还提到要用LeakyReLU
+	* 对Mask的梯度更新不是仅仅基于其grad,而是
+		* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191221124459.png)
+	* 还加上了一些Regularizer来加速训练
+	* Recoverable Prunning
+
+* [Variational CNN Prunning](http://openaccess.thecvf.com/content_CVPR_2019/papers/Zhao_Variational_Convolutional_Neural_Network_Pruning_CVPR_2019_paper.pdf)
+	* CVPR 2019
+	* 提出了一个新的模块(Plug-And-Play)叫做VaQriantional Prune Layer
+	* Vairantional Inference
+		* 不是尝试得到后验,而是找一个参数化的分布接近后验分布
+		* 有一个Sparsity Prior
+		* 最小化该分布和实际后验分布的KL散度,等价于最大化ELBO(evidence lower bound) 
+			* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191221125237.png)
+		* Workflow
+			* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191221125737.png)
+		* 实际上完成剪枝还是对应用训练到一定程度,当distribution的parametre小于threshold了,就删除	
+			* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191221125830.png)
+			* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191221130202.png)
+
+* [MaskConvNet](http://openaccess.thecvf.com/content_CVPR_2019/papers/Zhao_Variational_Convolutional_Neural_Network_Pruning_CVPR_2019_paper.pdf)
+	* 首先这个摘要给人一种Sell Too Hard的感觉
+	* MaskModule : HardTan with Some Trainable Parameters
+		* 输出受Sparsitification Loss的约束 (直观上这个就和我们不同)
+	* Adaptive to Budgets(FLOPs/ModelSize)
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191220171218.png)
+		* 不是真的有人这么写文章吗
+	* 作者将剪枝分为两种
+		* 一种是Saliency-Based: 也就是用一个显示(well-defined)的Threshold来决定剪枝
+		* 另外一种是Sparsity Learning: 也就是加Regularization的
+		* 那么我们属于什么呢?
+	* 作者还说很少有工作会学习prune mechanism去自动的alloctae每层的PruneRatio across layer
+		* 看来它的调研也不是很完全...
+	* 对比了MorphNet和BAR,说他们需要threhold但是它不需要
+		* 在这里它就强调了自己不需要tedious iterative training
+	* 实现的时候就是一个Mask..用Hardtan拉到[0,1]之间,训练这个Mask
+		* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191220174016.png)
+	* Loss的设计
+		* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191220174139.png)
+		* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191220174221.png)
+		* Minimize The Mean, Max The Variance/Mean (和L1吻合)
+		* 作者表示还可以切换到其他的优化目标
+		* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191220174447.png)
+			*　这个两个lambda好像是超参数?
+			*　好像是m的lr
+	* 为了防止剪的太狠,还有3个trick来Unsparse Masks
+		* 
