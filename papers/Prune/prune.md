@@ -223,13 +223,16 @@
 	* 对Mask的梯度更新不是仅仅基于其grad,而是
 		* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191221124459.png)
 	* 还加上了一些Regularizer来加速训练
-	* Recoverable Prunning
+	* Recoverable Prunning	
 
 * [Variational CNN Prunning](http://openaccess.thecvf.com/content_CVPR_2019/papers/Zhao_Variational_Convolutional_Neural_Network_Pruning_CVPR_2019_paper.pdf)
 	* CVPR 2019
 	* 提出了一个新的模块(Plug-And-Play)叫做VaQriantional Prune Layer
 	* Vairantional Inference
-		* 不是尝试得到后验,而是找一个参数化的分布接近后验分布
+		* 目标是
+			* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191221144313.png)
+			* (含参的模型，依据 BayesRule　来做Inference,传统的MCMC计算起来不易,所以提出了VariationalInferece)
+		* 不是直接用先验通过Bayesrule计算后验,而是找一个参数化的分布接近后验分布
 		* 有一个Sparsity Prior
 		* 最小化该分布和实际后验分布的KL散度,等价于最大化ELBO(evidence lower bound) 
 			* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191221125237.png)
@@ -265,4 +268,29 @@
 			*　这个两个lambda好像是超参数?
 			*　好像是m的lr
 	* 为了防止剪的太狠,还有3个trick来Unsparse Masks
-		* 
+	
+	
+	
+---
+
+* 2019-12-22
+
+* [Learning Efficient Convolutional Networks through Network Slimming arXiv:1708.06519v1](https://arxiv.org/pdf/1708.06519.pdf)
+* 很直观的在每个Channel前面加一个SaclingFactor,对这个ScalingFactor加一个Sparsity的Regularization(Smooth L1Norm)
+	*上面这个ScalingFartor可以Merge到BN的AfineTransform当中
+
+
+* 2019-12-23
+* [Rethinking The Smaller=Norm-Less-Informative Assupmtion in Channel Prunning](https://arxiv.org/pdf/1802.00124.pdf)
+* ICLR2018
+* 指出了传统方法的Theoretical Gap,传统的ChannelPrune的方式用Lasso或者是Ridge Regression的方法来Regularize
+	* Lasso enforce the Sparsity
+	* Ridge Penalize the low variance prediction
+	* 在Non-Convex的问题上不能保证
+	* 作者表示该类方法很难很好的控制每层的Norm
+* 认为BatchNorm和WeightRegularization并不compatible
+	* 经过了BN之后，L1Norm和L2Norm的约束不再起效果‘
+* 所以本文只对BN中的Scale(也就是AffineTransform）来做Sparsity
+*　作者表示ISTA还是一种比较work的Saprsity方式
+	* 思想类似ADMM，也是每一步都project到更Sparsity的域 
+* 有一个alpha的Rescale技巧，对BN层的Scale乘一个0.1/0.01的Scale，并作为补偿对后面层的Weight乘上对应值
