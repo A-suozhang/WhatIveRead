@@ -13,11 +13,6 @@
 
 ---
 
-
-# [MorphNet: Fast & Simple Resource-Constrained Structure Learning of Deep Networks](https://arxiv.org/pdf/1711.06798.pdf)
-
-* Simply Applying Regularization
-
 # [Designing energy- efficient convolutional neural networks using energy-aware pruning.](https://arxiv.org/abs/1611.05128)
 * CVPR 2017
 * Use Energy-Consumption to guide prunning process, use parameter extrapolated from actual hardware
@@ -294,3 +289,60 @@
 *　作者表示ISTA还是一种比较work的Saprsity方式
 	* 思想类似ADMM，也是每一步都project到更Sparsity的域 
 * 有一个alpha的Rescale技巧，对BN层的Scale乘一个0.1/0.01的Scale，并作为补偿对后面层的Weight乘上对应值
+
+* 2019-12-24
+* BAR (CVPR 2019)
+* Motivation
+	* Some Bayesian Methods Learns	a Dropout Density Function, with a Sparse Prior,CANT do Budget Prunning  
+	* Current Best Prune While Train Method: Sparsity Prior + Learnable Dropout Parameters
+	* This Paper: Learnable Masking Layer + Budget-Aware Objective Function
+* Key
+	* Bring Budget-Aware into Bayesian (DropoutSparsityLearning)
+	* Via Applying Regularization on Posterior
+* Contribution
+	* Nobel Objective Function - Variant Of Log-Barrier Fucntion(Simulating The Budget)
+	* Coombine SL with KD
+	* Automatic Depth Determination & Mixed Connection Block For Residue Block
+* Workflow
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191224144823.png)
+* Dropout Sparsity Learning (DSL)
+	* Mask Vector z_i is a tensor of random variables i.i.d of Bernouli Distriubtion q(z)
+	* The Parameters Of q(z) is Learnt
+	* Casue Sampling is non-differential
+		* Using The Reparameterize Trick 
+	* Apply a Sparsity Loss Term as Regularization
+	* Upper is Soft Prunning / After Training Set a Threshold to hard Prune it & Finetune
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191224144904.png)
+* BAR
+	* Budget is The Max Number of Neurons
+	* Calculating V as The Num of Neuron 
+		* Trasitional Way let Sparsity Loss to be INFINITY When Exceeds the budget-Ceil B
+		* Non-Differential -> Use Los Barrier to Soften it
+		* May Suffer Cold-Start(So Using a variant of Log Barrier)
+		* Eliminate Hard Parameter t & Decrease The Budget at each Iter
+		* Final BARLoss - L_s()*f(v,a,b)
+			* L_s is Differentiable Apprroximate of V
+			* V is the total num of Neurons (Budget)
+			* a,b(budget margin) are params in Variant of Log-Barrier
+			* b shift From V to B(Budget-Constraint) at end
+				* Annealing..?
+				* Scheduling
+* ResiduleBlock
+	* Automatic Depth Determination
+	* Mixed-Connection Block
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191224144931.png)
+	* Save Computation?
+
+
+# [MorphNet: Fast & Simple Resource-Constrained Structure Learning of Deep Networks](https://arxiv.org/pdf/1711.06798.pdf)
+* Google - CVPR 2018
+* Simply Applying Regularization
+	* Iteratively Shrink & Expand a Net
+* 目标是给定限定Budget,需要最大化精度
+* 首先有一个SeedNetwork作为原来的Template
+	* 最朴素的方法: WeightMultiplier-对所有层进行一个扩张,找到能够满足Budget的最大W
+* Workflow
+	* Squeeze -  Train with Sparsity Regularization
+	* Expand - Weight Scale Factor 
+
+

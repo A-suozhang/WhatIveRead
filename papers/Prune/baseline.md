@@ -93,10 +93,16 @@
 * ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191223225409.png)
 * ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191223225443.png)
 
+## BAR
+* Given Compression Ratio / Test Acc.
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191224145408.png)
+
+
 # Final Table
 
 > The End2End Method, Whether Finetuning
 
+## The Prune Table
 
 |Method | Network | Dataset | Acc | Sparsity | Notes |
 |--|--|--|--|--|--|
@@ -121,3 +127,23 @@
 |TransNAS|Res18|ImageNet|69.15%|33.3%|(FLOPs Pruned)|
 |TransNAS|Res50|ImageNet|76.2%|43.5%|(FLOPs Pruned)|
 |MaskConvNet|Res34|ImageNet|72.56|10.75%|(10.75 FLOPs & 19 Params)|
+
+## The Prune-Under-Budget Charts
+
+> Often in form of (Acc. Under Certain arbitary PruneRatio((PR))
+
+* [Adam-ADMM]() 
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191231181647.png)
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191231181715.png)
+
+* [MorphNet]()
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191231182023.png)
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191231182042.png)
+
+* [AMC]()
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191231182132.png)
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191231182215.png)
+		* 它居然有V2的实验结果？
+
+* [BAR]()
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20191231192035.png)
