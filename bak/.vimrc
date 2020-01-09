@@ -165,3 +165,5 @@ inoremap <C-j> <Down>
 inoremap <C-h> <Left>
 inoremap <C-l> <Right>
 inoremap <C-k> <Up>
+inoremap <C-a> <Esc>0wi
+inoremap <C-e> <Esc>A
