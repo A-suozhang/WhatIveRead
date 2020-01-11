@@ -155,3 +155,4 @@
 * [LeGR](https://arxiv.org/pdf/1904.12368.pdf)
 	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20200101213411.png)
 	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20200101213446.png)
+	* ![](https://github.com/A-suozhang/MyPicBed/raw/master/img/20200111220309.png)
