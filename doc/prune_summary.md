@@ -27,10 +27,18 @@
 
 ### Plan1
 
-|Lambda|Beta2 Schedule|Acc|Sparsity|Record|
-|--|--|--|--|--|
-|1e-13|2|94.7|25%|2(log丢失)|
+|Beta2 Schedule|Acc|Sparsity|Record|
+|--|--|--|--| 
+|1.1(50)|93.9|50%|1/|
 
+## Vgg16
+
+### Lasso
+|Lambda|Truncate|Acc|FLOPs|
+|--|--|--|--|
+|1e-4|1e-3|92.8|98%|
+|1e-3|1e-3|93.08|55%|
+|3e-3|1e-3|91.6|25%|  
 
 
 ## TODO
@@ -41,7 +49,7 @@
   * 优点控制的太好了...需要调好几个数量级
 * beta2-grow建议调快点
   * 目前的2还比较好用
-* 现在plan1的behaviour
+* 现在plan1的behaviour 
 	* 跑到50个epoch左右会报错overflow但是能够继续运行下去
 	* 一开始Sparsity会迅速下降之后就不变了
 	* 后续慢慢提高精度
