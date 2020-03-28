@@ -20,8 +20,6 @@ Host eva*
   User zhaotianchen
   ProxyCommand ssh zhaotianchen@205 nc %h %p
 
-
-
 Host proxy-eva10
   HostName eva10.nics.cc
   Port 32222
@@ -38,3 +36,32 @@ Host *.eva*
   User zhaotianchen
   ForwardAgent yes
   ProxyCommand ssh zhaotianchen@205 nc %h %p
+
+Host proxy-eva8
+  HostName eva8.nics.cc
+  Port 32222
+  User zhaotianchen
+  ProxyCommand ssh zhaotianchen@205 nc %h %p
+
+
+Host ztc-eva8
+  HostName foxfi-eva8
+  User zhaotianchen
+  ProxyCommand ssh -p 32222 zhaotianchen@eva8 nc %h %p
+
+
+Host ztc-eva9
+  HostName foxfi-eva9
+  User zhaotianchen
+  ProxyCommand ssh -p 32222 zhaotianchen@eva9 nc %h %p
+
+Host proxy-eva9
+  HostName eva9.nics.cc
+  Port 32222
+  User zhaotianchen
+  ProxyCommand ssh zhaotianchen@205 nc %h %p
+
+
+Host v2ray
+  HostName 149.28.201.130
+  User ztc
