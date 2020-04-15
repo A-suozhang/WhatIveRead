@@ -29,7 +29,7 @@ Host proxy-eva10
 Host ztc.eva10
   HostName foxfi-eva10
   User zhaotianchen
-  ProxyCommand ssh -p 32222 zhaotianchen@eva10 nc %h %p
+  ProxyCommand ssh -p 32222 -X zhaotianchen@eva10 nc %h %p
 
 Host *.eva*
   HostName %h.nics.cc
@@ -52,6 +52,7 @@ Host ztc-eva8
 
 Host ztc-eva9
   HostName foxfi-eva9
+  # HostName 166.111.224.55
   User zhaotianchen
   ProxyCommand ssh -p 32222 zhaotianchen@eva9 nc %h %p
 

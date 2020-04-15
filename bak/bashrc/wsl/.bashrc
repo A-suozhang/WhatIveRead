@@ -123,11 +123,11 @@ alias efc="ssh -X ztc@fpga1.nics.cc"
 alias eva="ssh zhaotianchen@101.6.64.169 -p 22 -o ProxyCommand='ssh -p 42222 zhaotianchen@101.6.64.67 -W %h:%p'"
 alias fpga="ssh ztc@fpga1.nics.cc -p 22 -o ProxyCommand='ssh -p 42222 zhaotianchen@101.6.64.67 -W %h:%p'"
 alias tt="~/Cool-Retro-Term-1.1.1-x86_64.AppImage --appimage-extract-and-run &"
-alias bak="cd  /mnt/c/Users/A_suozhang/Documents/Nutstore/bak/My_Notes/Bak/"
-alias coding=" cd /mnt/c/Users/A_suozhang/Documents/Nutstore/code/Workspace/WhatIveRead"
+alias bak="cd  /mnt/c/Users/A_suo/Documents/Nutstore/bak/My_Notes/Bak/"
+alias coding=" cd /mnt/c/Users/A_suo/Documents/Nutstore/code/Workspace/WhatIveRead"
 alias nics='ssh -A 205'
-alias todo='vim /mnt/c/Users/A_suozhang/Documents/Nutstore/Blog/A-suozhang.github.io/_posts/2019-01-01-Diary.md'
-alias blog="cd /mnt/c/Users/A_suozhang/Documents/Nutstore/Blog/A-suozhang.github.io/_posts/"
+alias todo='vim /mnt/c/Users/A_suo/Documents/Nutstore/Blog/A-suozhang.github.io/_posts/2019-01-01-Diary.md'
+alias blog="cd /mnt/c/Users/A_suo/Documents/Nutstore/Blog/A-suozhang.github.io/_posts/"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
