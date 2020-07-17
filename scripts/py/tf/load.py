@@ -11,7 +11,7 @@ def convert_ckpt2pb():
     sess = tf.Session()
     saver = tf.train.import_meta_graph(DIR+sub+".meta")
     FileWriter("__tb", sess.graph)
-    saver.restore(sess, tf.train.latest_checkpoint(DIR))
+    aver.restore(sess, tf.train.latest_checkpoint(DIR))
     val_names = [v.name for v in tf.global_variables()]
     # Save the graph for tensorboard
     g = tf.get_default_graph()

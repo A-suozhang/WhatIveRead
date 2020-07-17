@@ -1,0 +1,205 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage{amsmath,amssymb} % define this before the line numbering.
+\usepackage{color}
+\usepackage{array}
+\usepackage{booktabs} %调整表格线与上下内容的间隔
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subfigure} 
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{amsmath} 
+
+
+\begin{document}
+
+% \begin{table*}[ht]
+%     \caption{Notations}
+%     \label{tab:notation}
+%     \small
+%     \begin{center}
+%     \begin{tabular}{cp{5cm}}
+%     \toprule
+%     \multirow{2}{*}{$V$} & maximum number of nodes: 7 for NasBench-101, 6 for ENAS \\
+%     \specialrule{0em}{1pt}{4pt}
+%     \multirow{2}{*}{$n_i$} & number of input nodes: 1 for NasBench-101, 2 for ENAS\\
+%     \specialrule{0em}{1pt}{4pt}
+%     $N_o$ &  number of operation primitives\\\cmidrule(lr){1-2}
+%     $h_o$ & embedding size of operation\\
+%     $h_i^{(k)}$ & embedding size of information in the $k$-th layer\\
+%     $E \in \mathbb{R}^{n_i\times h^{(0)}_i}$  & the embedding of the information at the input nodes\\
+%     $\mbox{EMB} \in \mathbb{R}^{N_o \times h_o}$ & the operation embeddings \\
+%     $W^{(k)}_o\in \mathbb{R}^{h_o \times h_i^{(k)}}$ & the transformation matrix on the operation embedding\\
+%     $W^{(k)}_x \in \mathbb{R}^{h_i^{(k-1)} \times h_i^{(k)}}$ & the transformation matrix on previous layer's output information\\\cmidrule(lr){1-2}
+%     $b$ & batch size\\
+%     $A \in \mathbb{R}^{b\times V\times V}$ & adjacency matrix\\
+%     $X^{(k)} \in \mathbb{R}^{b \times V \times h_i^{(k)}}$ & the output virtual information of the $k$-th layer\\
+%     \hline \\
+%     $\mbox{EMB}(o) \in \mathbb{R}^{b \times V \times h_o}$ & the operation embeddings \\
+%     \hline \\
+%     $n_d$ & maximum input degree of nodes\\
+%     $\mbox{EMB}(o_d) \in \mathbb{R}^{b \times V \times V \times h_o}$ & the embeddings of operation on the $d$-th input edge for nodes (a sparse matrix) \\\bottomrule
+%     \end{tabular}
+%     \end{center}
+% \end{table*}
+
+
+    % \begin{table}[ht]
+    %     \caption{Network pruning results of ImageNet}
+    %     \label{tab:res_cifar10}
+    %     \begin{tabular}{c|ccccc}
+    %     \toprule
+    %     \specialrule{0em}{1pt}{5pt}
+    %     \multirow{2}{*}{Network} & \multirow{2}{*}{TG} & \multirow{2}{*}{Method} & FLOPs & Top-1 & Top-5 \\ 
+    %      & & & Ratio & Acc Drop & Acc Drop \\
+    %     \cmidrule{1-6} 
+    %     \multirow{5}{*}{ResNet18} &  & Baseline & 100\%  &  \textbf{69.72}\% & \textbf{89.07\%}\\
+    %     \cmidrule{2-6}  
+    %     & & MiL  & 65.4\%  &  -3.65\% & -2.30\% \\  
+    %     & & SFP & 60.0\%  &  -3.18\% & -1.85\% \\  
+    %     & & FPGM & 60.0\%  &  -2.47\% & -1.52\% \\ 
+    %     \cmidrule{2-6}   
+    %     & & Ours & 60.0\%  &  \textbf{-1.11\%} & \textbf{-0.718\%} \\ 
+    %     \cmidrule{1-6}
+    %     \multirow{12}{*}{ResNet50} &  & Baseline & 100\%  &  \textbf{76.02\%} & \textbf{92.86\%}\\
+    %     \cmidrule{2-6} 
+    %     & & APG & 69.0\%  &  -1.94\% & -1.95\% \\  
+    %     & & GDP & 60.0\%  &  -2.52\% & -1.25\% \\  
+    %     & & SFP & 60.0\%  &  -1.54\% & -0.81\% \\ 
+    %     & & FPGM & 60.0\%  &  -1.12\% & -0.47\% \\ 
+    %     \cmidrule{2-6}
+    %     & & Ours & 60.0\%  &  \textbf{-0.92\%} & \textbf{-0.41\%} \\ 
+    %     \cmidrule{2-6}
+    %     & & ThiNet  & 50.0\%  &  -4.13\% & - \\ 
+    %     & & CP  & 50.0\%  &  -3.25\% & -1.40\% \\ 
+    %     & & FPGM  & 50.0\%  &  -2.02\% & -0.93\% \\ 
+    %     & & PFS  & 50.0\%  &  -1.60\% & - \\ 
+    %     \cmidrule{2-6}
+    %     & & Ours & 50.0\%  &  \textbf{-1.33\%} & \textbf{-0.8\%} \\ 
+    %     \bottomrule
+    %     \end{tabular}
+    % \end{table} 
+
+    % \begin{table}
+    %     \caption{Pruning Results on ImageNet}
+    %     \label{tab:res_imgent}
+    %     \begin{tabular}{c|ccc}
+    %         \toprule
+    %         Network & Method & FLOPs & Acc Drop \\
+    %         \midrule{1~3}
+    %         multirow{3}{}{ResNet20} & SSL & 100\% & -0.1\%
+
+            
+    %     \end{tabular}
+
+        
+    % \end{table}
+    % \caption{Pruning Results on ImageNet}
+
+
+    % \begin{table*}[th]
+    %     \caption{The Kendall’s Tau of the baseline encoders and GATES on the NASBench-101 dataset. The first 90\% (381262) architectures in the dataset are used as the training data, and the other 42362 architectures are used as the testing data. Hinge pairwise ranking loss with margin 0.1 are used for these experiments.}
+    %     \label{table:gates-nb101}
+    %     \begin{center}
+    %      %\resizebox{1.0\textwidth}{!}{
+    %     \begin{tabular}{ccccc}
+    %     \toprule
+    %     \multirow{2}{*}{Encoder} & \multicolumn{4}{c}{ Best rank of actual performance in top K predicted performance }\\ 
+    %     \cmidrule(lr){2-5} & rank@5 & rank@10 & regression@5 & regression@10  \\ \midrule
+    %     MLP~\cite{wang2018alphax}   &    58 (0.13\%)    &    58 (0.13\%)   &    1397 (3.30\%)   &   552 (1.30\%)    \\
+    %     LSTM~\cite{wang2018alphax}     &      1715 (4.05\%)  &   1715 (4.05\%) &   1080 (2.54\%)   & 312 (0.73\%)  \\
+    %     GCN ~\cite{shi2019multi} & 2025 (4.77\%) & 1362 (3.21\%) & 405 (0.95\%) & 405(0.95\%) \\
+    %     \hline
+    %     GATES & {\bf 22(0.05\%)} & {\bf 22(0.05\%)} & {\bf 27(0.05\%)} & {\bf 27(0.05\%)} \\\bottomrule
+    %     \end{tabular}
+    %     %}
+    %     \end{center}
+    % \end{table*}
+
+    
+    % \begin{table*}[th]
+    %     \caption{The Kendall’s Tau of the baseline encoders and GATES on the NASBench-101 dataset. The first 90\% (381262) architectures in the dataset are used as the training data, and the other 42362 architectures are used as the testing data. Hinge pairwise ranking loss with margin 0.1 are used for these experiments.}
+    %     \label{table:gates-nb201}
+    %     \begin{center}
+    %      %\resizebox{1.0\textwidth}{!}{
+    %     \begin{tabular}{ccccc}
+    %     \toprule
+    %     \multirow{2}{*}{Encoder} & \multicolumn{4}{c}{ Best rank of actual performance in top K predicted performance }\\ 
+    %     \cmidrule(lr){2-5} & rank@5 & rank@10 & regression@5 & regression@10  \\ \midrule
+    %     MLP~\cite{wang2018alphax}   &    8 (0.09\%)    &    8 (0.09\%)   &   1539 (19.7\%)   &   225 (3.87\%)    \\
+    %     LSTM~\cite{wang2018alphax}     &  9 (1.02\%)  &   2 (0.01\%) &  251 (6.65\%)   & 235 (2.99\%)  \\
+    %     \hline
+    %     GATES & {\bf 1(-\%)} & {\bf 1(-\%)} & {\bf 1(-\%)} & {\bf 1(-\%)} \\\bottomrule
+    %     \end{tabular}
+    %     %}
+    %     \end{center}
+    % \end{table*}
+
+    % \begin{table*}[th]
+    %     \caption{N@K on NAS-Bench-101.}
+    %     \label{table:natk-nb101}
+    %     \begin{center}
+    %      %\resizebox{1.0\textwidth}{!}{
+    %     \begin{tabular}{c@{\hskip 0.02\linewidth}cccc}
+    %     \toprule
+    %     %\multirow{2}{*}{Encoder} & \multicolumn{4}{c}{ Best rank of actual performance in top K predicted performance }\\ 
+    %     \multirow{2}{*}{Encoder} & \multicolumn{2}{c}{Rank Loss} &  \multicolumn{2}{c}{Regression Loss} \\ 
+    %     \cmidrule(lr){2-3}\cmidrule(lr){4-5} & N@5 & N@10 & N@5 & N@10  \\ \midrule
+    %     MLP~\cite{wang2018alphax}   &    57 (0.13\%)    &    57 (0.13\%)   &    1396 (3.30\%)   &   551 (1.30\%)    \\
+    %     LSTM~\cite{wang2018alphax}     &      1714 (4.05\%)  &   1714 (4.05\%) &   1079 (2.54\%)   & 311 (0.73\%)  \\
+    %     GCN ~\cite{shi2019multi} & 2024 (4.77\%) & 1361 (3.21\%) & 404 (0.95\%) & 404 (0.95\%) \\
+    %     \hline
+    %     GATES & {\bf 21 (0.05\%)} & {\bf 21 (0.05\%)} & {\bf 26 (0.05\%)} & {\bf 26 (0.05\%)} \\\bottomrule
+    %     \end{tabular}
+    %     %}
+    %     \end{center}
+    % \end{table*}
+
+
+    \begin{table}[ht]
+        \caption{Network pruning results of ResNet-18 and ResNet-50 on the CIFAR-10 dataset. SSL and MorphNet are re-implemented with topological grouping. Accuracy drops for the referred results are calculated based on the reported baseline in their papers. \textbf{Headers}: ``TG'' stands for Topological Grouping; ``FLOPs Budget'' stands for the percentage of the pruned FLOPs compared to the full model.}
+        \label{tab:res_cifar10}
+        \begin{center}
+        \begin{tabular}{cccccc}
+        \toprule
+        \multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}FLOPs\\ Budget\end{tabular}} & \multirow{3}{*}{Method} & \multicolumn{2}{c}{ResNet-18} & \multicolumn{2}{c}{ResNet-50}\\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} 
+        &  & \begin{tabular}[c]{@{}c@{}}FLOPs\\ ratio\end{tabular} & Accuracy   & \begin{tabular}[c]{@{}c@{}}FLOPs\\ ratio\end{tabular} & Accuracy    \\ \midrule
+        \multicolumn{1}{c|}{\multirow{1}{*}{\begin{tabular}[c]{@{}c@{}} Baseline\end{tabular}}}   & Ours & 100 \%  & 94.0 \% & 100 \% & 94.1 \% \\ \cmidr{1-6}
+        \multicolumn{1}{c|}{\multirow{3}{*}{50\% ($\times 2$)}} 
+                              & SSL~\cite{grouplasso} & 48.5\% & 92.47\% & 54.5\%$^\dagger$  & 92.79\% \\
+        \multicolumn{1}{c|}{} & MorphNet~\cite{morphnet}      & 49.8\%  & 94.39\% & 43.17\%  & 93.16\% \\
+        % \multicolumn{1}{c|}{} & AMC$^*$~\cite{amc}                & - & - & 50\%   & 91.9\%  \\
+        % \multicolumn{1}{c|}{} & Variational$^*$~\cite{variational}& - & - & 80\%    & 91.66\% \\
+        % \multicolumn{1}{c|}{} & SFP$^*$~\cite{sfp}        & 57.8\%  & 90.83\% & 47.4\% & 92.26\%       \\
+        % \multicolumn{1}{c|}{} & FPGM$^*$~\cite{fpgm}    & 57.8\%   & 91.09\% & 47.4\%  & 92.93\% \\
+        % \multicolumn{1}{c|}{} & TAS$^*$~\cite{tas}   & 45.0\%  & 92.88\% & 52.7\% & 93.69\% \\
+        \cmidr{2-6}
+        \multicolumn{1}{c|}{} & DSA (Ours)   & 49.73\%   & 94.56\% & 44.46 \% & 93.54\%\\ \cmidr{1-6}
+        \multicolumn{1}{c|}{\multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}25\%  ($\times 4$)\end{tabular}}}     & SSL~\cite{grouplasso}  & 26.7\%$^\dagger$  & 90.4\% & 26.08\%$^\dagger$ & 91.2\%  \\
+        \multicolumn{1}{c|}{}  & MorphNet~\cite{morphnet} & 23.4\% & 93.35\% & 21.07\% & 93.4\%  \\\cmidr{2-6}
+        \multicolumn{1}{c|}{}  & DSA (Ours)              & 19.82\% & 93.6\% & 24.8\% & 93.84\% \\ \cmidr{1-6}
+        \multicolumn{1}{c|}{\multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}12.5\% ($\times 8$)\end{tabular}}}   & SSL~\cite{grouplasso} & 11.6\%  & 86.2\% & 11.43\% & 85.67\% \\
+        \multicolumn{1}{c|}{} & MorphNet~\cite{morphnet} & 8.2\%  & 91.8\% & 10.43\% & 91.2\%  \\\cmidr{2-6}
+        \multicolumn{1}{c|}{} & DSA (Ours)              & 12.1\%  & 93.0\% & 7.84\% & 93.73\% \\ \cmidr{1-6}
+        \multicolumn{1}{c|}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}3.125\% ($\times 32)$\end{tabular}}} & MorphNet~\cite{morphnet} & 3.29\%$^\dagger$  & 87.05\% & 3.01\% & 89.5\%  \\\cmidr{2-6}
+        \multicolumn{1}{c|}{} & DSA (Ours)              & 2.16\%  & 89.88\% & 2.53\% & 92.31\% \\ \bottomrule
+        \end{tabular}
+        \begin{minipage}{0.9\textwidth}
+        {\small
+        $\dagger$: The FLOPs of these results are higher than the budget constraints, since the constraints could not be reliably satisfied with regularization-based methods.
+        
+        %$*$: The results of these methods are taken directly from their papers.
+        }
+        \end{minipage}
+        \end{center}
+        \end{table}
+        
+
+
+\end{document}

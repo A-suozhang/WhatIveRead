@@ -1,0 +1,143 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{burges2005learning}
+Burges, C., Shaked, T., Renshaw, E., Lazier, A., Deeds, M., Hamilton, N.,
+  Hullender, G.: Learning to rank using gradient descent. In: Proceedings of
+  the 22nd international conference on Machine learning. pp. 89--96 (2005)
+
+\bibitem{chen2009}
+Chen, W., yan Liu, T., Lan, Y., ming Ma, Z., Li, H.: Ranking measures and loss
+  functions in learning to rank. In: Bengio, Y., Schuurmans, D., Lafferty,
+  J.D., Williams, C.K.I., Culotta, A. (eds.) Advances in Neural Information
+  Processing Systems 22, pp. 315--323. Curran Associates, Inc. (2009)
+
+\bibitem{Dong2020NAS-Bench-201}
+Dong, X., Yang, Y.: Nas-bench-201: Extending the scope of reproducible neural
+  architecture search. In: International Conference on Learning Representations
+  (2020), \url{https://openreview.net/forum?id=HJxyZkBKDr}
+
+\bibitem{guo2019nat}
+Guo, Y., Zheng, Y., Tan, M., Chen, Q., Chen, J., Zhao, P., Huang, J.: Nat:
+  Neural architecture transformer for accurate and compact architectures. In:
+  Advances in Neural Information Processing Systems. pp. 735--747 (2019)
+
+\bibitem{kandasamy2018bayesian}
+Kandasamy, K., Neiswanger, W., Schneider, J., Poczos, B., Xing, E.P.: Neural
+  architecture search with bayesian optimisation and optimal transport. In:
+  Advances in Neural Information Processing Systems. pp. 2016--2025 (2018)
+
+\bibitem{kingma2014adam}
+Kingma, D.P., Ba, J.: Adam: A method for stochastic optimization. arXiv
+  preprint arXiv:1412.6980  (2014)
+
+\bibitem{kipf2016semi}
+Kipf, T.N., Welling, M.: Semi-supervised classification with graph
+  convolutional networks. arXiv preprint arXiv:1609.02907  (2016)
+
+\bibitem{liu2018progressive}
+Liu, C., Zoph, B., Neumann, M., Shlens, J., Hua, W., Li, L.J., Fei-Fei, L.,
+  Yuille, A., Huang, J., Murphy, K.: Progressive neural architecture search.
+  In: Proceedings of the European Conference on Computer Vision (ECCV). pp.
+  19--34 (2018)
+
+\bibitem{liu2017hierarchical}
+Liu, H., Simonyan, K., Vinyals, O., Fernando, C., Kavukcuoglu, K.: Hierarchical
+  representations for efficient architecture search. arXiv preprint
+  arXiv:1711.00436  (2017)
+
+\bibitem{darts}
+Liu, H., Simonyan, K., Yang, Y.: Darts: Differentiable architecture search.
+  arXiv preprint arXiv:1806.09055  (2018)
+
+\bibitem{liu2009learning}
+Liu, T.Y., et~al.: Learning to rank for information retrieval. Foundations and
+  Trends{\textregistered} in Information Retrieval  \textbf{3}(3),  225--331
+  (2009)
+
+\bibitem{luo2019understanding}
+Luo, R., Qin, T., Chen, E.: Understanding and improving one-shot neural
+  architecture optimization. arXiv preprint arXiv:1909.10815  (2019)
+
+\bibitem{nao2018}
+Luo, R., Tian, F., Qin, T., Chen, E., Liu, T.Y.: Neural architecture
+  optimization. In: Bengio, S., Wallach, H., Larochelle, H., Grauman, K.,
+  Cesa-Bianchi, N., Garnett, R. (eds.) Advances in Neural Information
+  Processing Systems 31, pp. 7816--7827. Curran Associates, Inc. (2018),
+  \url{http://papers.nips.cc/paper/8007-neural-architecture-optimization.pdf}
+
+\bibitem{negrinho2017deeparchitect}
+Negrinho, R., Gordon, G.: Deeparchitect: Automatically designing and training
+  deep architectures. arXiv preprint arXiv:1704.08792  (2017)
+
+\bibitem{pham2018efficient}
+Pham, H., Guan, M.Y., Zoph, B., Le, Q.V., Dean, J.: Efficient neural
+  architecture search via parameter sharing. arXiv preprint arXiv:1802.03268
+  (2018)
+
+\bibitem{real2019regularized}
+Real, E., Aggarwal, A., Huang, Y., Le, Q.V.: Regularized evolution for image
+  classifier architecture search. In: Proceedings of the aaai conference on
+  artificial intelligence. vol.~33, pp. 4780--4789 (2019)
+
+\bibitem{sciuto2019evaluating}
+Sciuto, C., Yu, K., Jaggi, M., Musat, C., Salzmann, M.: Evaluating the search
+  phase of neural architecture search. arXiv preprint arXiv:1902.08142  (2019)
+
+\bibitem{sen1968estimates}
+Sen, P.K.: Estimates of the regression coefficient based on kendall's tau.
+  Journal of the American statistical association  \textbf{63}(324),
+  1379--1389 (1968)
+
+\bibitem{shashua2003ranking}
+Shashua, A., Levin, A.: Ranking with large margin principle: Two approaches.
+  In: Advances in neural information processing systems. pp. 961--968 (2003)
+
+\bibitem{shi2019multi}
+Shi, H., Pi, R., Xu, H., Li, Z., Kwok, J.T., Zhang, T.: Multi-objective neural
+  architecture search via predictive network performance optimization. arXiv
+  preprint arXiv:1911.09336  (2019)
+
+\bibitem{stagge2000neural}
+Stagge, P., Igel, C.: Neural network structures and isomorphisms: Random walk
+  characteristics of the search space. In: 2000 IEEE Symposium on Combinations
+  of Evolutionary Computation and Neural Networks. Proceedings of the First
+  IEEE Symposium on Combinations of Evolutionary Computation and Neural
+  Networks (Cat. No. 00. pp. 82--90. IEEE (2000)
+
+\bibitem{wang2018alphax}
+Wang, L., Zhao, Y., Jinnai, Y., Fonseca, R.: Alphax: exploring neural
+  architectures with deep neural networks and monte carlo tree search. arXiv
+  preprint arXiv:1805.07440  (2018)
+
+\bibitem{xia2008listwise}
+Xia, F., Liu, T.Y., Wang, J., Zhang, W., Li, H.: Listwise approach to learning
+  to rank: theory and algorithm. In: Proceedings of the 25th international
+  conference on Machine learning. pp. 1192--1199 (2008)
+
+\bibitem{xie2019exploring}
+Xie, S., Kirillov, A., Girshick, R., He, K.: Exploring randomly wired neural
+  networks for image recognition. In: Proceedings of the IEEE International
+  Conference on Computer Vision. pp. 1284--1293 (2019)
+
+\bibitem{xu2019renas}
+Xu, Y., Wang, Y., Han, K., Jui, S., Xu, C., Tian, Q., Xu, C.:
+  Renas:relativistic evaluation of neural architecture search (2019)
+
+\bibitem{ying2019bench}
+Ying, C., Klein, A., Real, E., Christiansen, E., Murphy, K., Hutter, F.:
+  Nas-bench-101: Towards reproducible neural architecture search. arXiv
+  preprint arXiv:1902.09635  (2019)
+
+\bibitem{zoph2016neural}
+Zoph, B., Le, Q.V.: Neural architecture search with reinforcement learning. In:
+  ICLR (2017), \url{https://arxiv.org/abs/1611.01578}
+
+\bibitem{zoph2018learning}
+Zoph, B., Vasudevan, V., Shlens, J., Le, Q.V.: Learning transferable
+  architectures for scalable image recognition. In: Proceedings of the IEEE
+  conference on computer vision and pattern recognition. pp. 8697--8710 (2018)
+
+\end{thebibliography}
