@@ -8,7 +8,7 @@ bibtex ${FILE/.tex/.aux}
 xelatex ${FILE}
 pdflatex ${FILE}
 
-rm *.bbl
+# rm *.bbl
 rm *.aux
 rm *.log
 rm *.blg

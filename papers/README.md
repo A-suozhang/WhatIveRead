@@ -4,7 +4,7 @@
 
 ### the recent read paper-stack 
 
-* in ```paper-stack.md```
+* in [```paper-stack.md```](https://a-suozhang.xyz/2024/01/01/paper-stack/)
 
 ### awesome-lists
 

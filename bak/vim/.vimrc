@@ -167,3 +167,13 @@ inoremap <C-l> <Right>
 inoremap <C-k> <Up>
 inoremap <C-a> <Esc>0wi
 inoremap <C-e> <Esc>A
+
+" move cursor into the middle of ()
+imap () ()<Left>
+imap [] []<Left>
+imap {} {}<Left>
+imap "" ""<Left>
+
+
+" au BufWritePre * :set binary | set noeol
+" au BufWritePost * :set nobinary | set eol

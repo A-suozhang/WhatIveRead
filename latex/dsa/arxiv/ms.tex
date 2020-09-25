@@ -29,11 +29,24 @@
 \newcommand{\lag}{\mathcal{L}}
 \newcommand{\dsa}{DSA\xspace}
 
-
 \begin{document}
+% \renewcommand\thelinenumber{\color[rgb]{0.2,0.5,0.8}\normalfont\sffamily\scriptsize\arabic{linenumber}\color[rgb]{0,0,0}}
+% \renewcommand\makeLineNumber {\hss\thelinenumber\ \hspace{6mm} \rlap{\hskip\textwidth\ \hspace{6.5mm}\thelinenumber}}
+% \linenumbers
 \pagestyle{headings}
 \mainmatter
+\def\ECCVSubNumber{922}  % Insert your submission number here
 
+% \title{Author Guidelines for ECCV Submission} % Replace with your title
+
+% INITIAL SUBMISSION 
+%\begin{comment}
+% \titlerunning{ECCV-20 submission ID \ECCVSubNumber} 
+% \authorrunning{ECCV-20 submission ID \ECCVSubNumber} 
+% \author{Anonymous ECCV submission}
+% \institute{Paper ID \ECCVSubNumber}
+%\end{comment}
+%******************
 
 \title{DSA: More Efficient Budgeted Pruning via Differentiable Sparsity Allocation}
 
@@ -48,12 +61,36 @@ Yu Wang\inst{1}\orcidID{0000-0001-6108-5157} \and
 Huazhong Yang\inst{1}\orcidID{0000-0003-2421-353X}}
 
 
-
-
 \authorrunning{X. Ning et al.} 
 \institute{Department of Electronic Engineering, Tsinghua University \and Department of Electronic Engineering, Beihang University \\
 \email{foxdoraame@gmail.com, ztc16@buaa.edu.cn, yu-wang@tsinghua.edu.cn}}
 \maketitle
+
+
+
+% % CAMERA READY SUBMISSION
+% \begin{comment}
+% \titlerunning{Abbreviated paper title}
+% % If the paper title is too long for the running head, you can set
+% % an abbreviated paper title here
+% %
+% \author{First Author\inst{1}\orcidID{0000-1111-2222-3333} \and
+% Second Author\inst{2,3}\orcidID{1111-2222-3333-4444} \and
+% Third Author\inst{3}\orcidID{2222--3333-4444-5555}}
+% %
+% \authorrunning{F. Author et al.}
+% % First names are abbreviated in the running head.
+% % If there are more than two authors, 'et al.' is used.
+% %
+% \institute{Princeton University, Princeton NJ 08544, USA \and
+% Springer Heidelberg, Tiergartenstr. 17, 69121 Heidelberg, Germany
+% \email{lncs@springer.com}\\
+% \url{http://www.springer.com/gp/computer-science/lncs} \and
+% ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
+% \email{\{abc,lncs\}@uni-heidelberg.de}}
+% \end{comment}
+% %******************
+% \maketitle
 \begin{abstract}
 
   Budgeted pruning is the problem of pruning under resource constraints. In budgeted pruning, how to distribute the resources across layers (i.e., sparsity allocation) is the key problem. Traditional methods solve it by discretely searching for the layer-wise pruning ratios, which lacks efficiency. In this paper, we propose Differentiable Sparsity Allocation (\dsa), an efficient end-to-end budgeted pruning flow. 
@@ -118,8 +155,8 @@ Huazhong Yang\inst{1}\orcidID{0000-0003-2421-353X}}
   
   There are also studies that target at choosing which filters to prune, given the layer-wise pruning ratios. ThiNet~\cite{luo2017thinet} utilizes the information from the next layer to select filters. 
   FPGM~\cite{fpgm} exploits the distances to the geometric median as the importance criterion. These methods focus on exploring intra-layer filter importance criteria, instead of handling the inter-layer sparsity allocation.
-  
 
+  
   \subsection{Budgeted Pruning}
   
   To amend the regularization based methods for budgeted pruning, MorphNet~\cite{morphnet} alternates between training with $L_1$ regularization and applying a channel multiplier. 
@@ -134,10 +171,13 @@ Huazhong Yang\inst{1}\orcidID{0000-0003-2421-353X}}
   Apart from these methods that search for the layer-wise pruning ratio,  LeGR~\cite{legr} searches for appropriate affine transformation coefficients to calculate the global importance scores of the filters.
   These methods can guarantee that the resulting models meet the budget constraint, but the discrete search process is inefficient and requires a pre-trained model.
   
-  In contrast, \dsa (Differentiable Sparsity Allocation) is an end-to-end pruning flow that allocates the inter-layer sparsity with a gradient-based method, which yields better performance and higher efficiency. Moreover, \dsa  works in a ``pruning from scratch'' manner, saving the cost of pre-training the model.
+  In contrast, \dsa (Differentiable Sparsity Allocation) is an end-to-end pruning flow that allocates the inter-layer sparsity with a gradient-based method, which yields better performance and higher efficiency. Moreover, \dsa works in a ``pruning from scratch'' manner, saving the cost of pre-training the model.
   The comparison of various properties across pruning methods is summarized in Table.~\ref{table:related_work}.
 
+ 
   
+
+ 
   \begin{table*}[bht]
     \centering
     \caption{Comparison of structured pruning methods. \textbf{Headers}: The ``budget control'' column indicates whether the method could ensure the resulting model to satisfy the budget constraint; The ``from scratch'' column indicates whether the method could be applied to random initialized models rather than pre-trained ones; The ``performance instruction'' column describes how the task performance instructs the sparsity allocation, ``indirect'' means that the task performance instructs the sparsity allocation only indirectly through weights (e.g., magnitude pruning); The ``gen. perf.'' column indicates whether the generalization performance guides the pruning process}
@@ -156,9 +196,6 @@ Huazhong Yang\inst{1}\orcidID{0000-0003-2421-353X}}
     \end{tabular}
   \end{table*}
   
-    
-
-
 
 
   \section{Problem Definition}
@@ -314,7 +351,7 @@ Huazhong Yang\inst{1}\orcidID{0000-0003-2421-353X}}
   
   
   For plain CNN, we can choose the layer-wise keep ratios $\alpha^{(k)}, k=1,\cdots,K$ independently. However, for networks with shortcuts (e.g., ResNet), the naive scheme can lead to irregular computation patterns. 
-  Our grouping procedure for handling the topological constraints is described in Alg. 2 in the appendix. An example of grouping convolutions in two residual blocks is shown in the appendix.
+  Our grouping procedure for handling the topological constraints is described in Alg. 1 in the appendix. An example of grouping convolutions in two residual blocks is also shown in the appendix.
   
   The $\flops(\alphas)$ function models relationship of the keep ratios $\alphas$ and the resources. Taking FLOPs as an example, $\flops(\alphas)$ could be represented as $\flops(\alphas) = \alphas^T \flops_A \alphas + \flops_B^T \alphas$. 
   For completeness, we summarize the calculation procedure of $\flops_A$ and $\flops_B$ in Alg.~1 in the appendix. 
@@ -332,47 +369,6 @@ Huazhong Yang\inst{1}\orcidID{0000-0003-2421-353X}}
   % \end{algorithm}
   
   
-  \begin{table}[H]
-    \caption{Pruning results of ResNet-20 and ResNet-56 on CIFAR-10. SSL and MorphNet are re-implemented with topological grouping. Accuracy drops for the referred results are calculated based on the reported baseline in their papers. \textbf{Headers}: ``TG'' stands for Topological Grouping; ``FLOPs Budget'' stands for the percentage of the pruned models' FLOPs compared to the full model}
-    \label{tab:res_cifar10}
-    \begin{center}
-    \resizebox{1.0\textwidth}{!}{
-    \begin{tabular}{ccccccc}
-    \toprule
-    \multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}FLOPs\\ Budget\end{tabular}} & \multirow{3}{*}{Method} &  \multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}TG\end{tabular}} & \multicolumn{2}{c}{ResNet-20} & \multicolumn{2}{c}{ResNet-56}\\ \cmidrule(lr){4-5} \cmidrule(lr){6-7} 
-    &  & & \begin{tabular}[c]{@{}c@{}}FLOPs\\ ratio\end{tabular} & Acc. (Acc. Drop)    & \begin{tabular}[c]{@{}c@{}}FLOPs\\ ratio\end{tabular} & Acc. (Acc. Drop)    \\ \midrule
-    \multicolumn{1}{c|}{\multirow{1}{*}{\begin{tabular}[c]{@{}c@{}} Baseline\end{tabular}}}   & \multicolumn{2}{c}{Ours} & 100 \%  & 92.17 \% & 100 \% & 93.12 \% \\ \cmidr{1-7}
-    \multicolumn{1}{c|}{\multirow{4}{*}{\begin{tabular}[c]{@{}c@{}}75\% \end{tabular}}}   & SSL~\cite{grouplasso} & $\checkmark$ & 73.8\%  & 91.08\% (-1.09\%)  & 69.0\% & 92.06\% (-1.06\%) \\
-    \multicolumn{1}{c|}{} & Variational$^*$~\cite{variational}& &  83.5\%  & 91.66\% (-0.41\%) & 79.7\% & 92.26\% (-0.78\%) \\
-    \multicolumn{1}{c|}{} & PFEC$^*$~\cite{pfec} &  \checkmark & -  & -  & 74.4\% & 91.31\% (-1.75\%)       \\
-    \multicolumn{1}{c|}{} & MorphNet~\cite{morphnet} & $\checkmark$& 74.9\%  & 90.64\% (-1.53\%) & 69.2\% & 91.71\% (-1.41\%)  \\\cmidr{2-7}
-    \multicolumn{1}{c|}{} & DSA (Ours)            & $\checkmark$ & 74.0\%  & \textbf{92.10\% (-0.07\%)} & 70.7\% & \textbf{93.08\% (-0.04\%)}  \\ \cmidr{1-7}
-    \multicolumn{1}{c|}{\multirow{8}{*}{50\% ($\times 2$)}} 
-                          & SSL~\cite{grouplasso} &$\checkmark$  & 51.8\%$^\dagger$  & 89.78 \% (-2.39\%) & 45.5\% & 91.22\% (-1.90\%) \\
-    \multicolumn{1}{c|}{} & MorphNet~\cite{morphnet} &  $\checkmark$   & 47.1\%  & 90.1\% (-2.07\%) & 51.9\%$^\dagger$  & 91.55\% (-1.57\%) \\
-    \multicolumn{1}{c|}{} & AMC$^*$~\cite{amc}  &  $\checkmark$  & - & - & 50\%   & 91.9\% (-0.9\%) \\
-    \multicolumn{1}{c|}{} & CP$^*$~\cite{cp}    &    & - & - & 50\%   & 91.8\% (-1.0\%) \\
-    \multicolumn{1}{c|}{} & Rethink$^*$~\cite{rethinking}  & & 60.0\% & 91.07\% (-1.34\%) & 50\%  & 93.07\% (-0.73\%) \\
-    \multicolumn{1}{c|}{} & SFP$^*$~\cite{sfp}  &    & 57.8\%  & 90.83\% (-1.37\%) & 47.4\% & 92.26\% (-1.33\%)       \\
-    \multicolumn{1}{c|}{} & FPGM$^*$~\cite{fpgm}&    & 57.8\%   & 91.09\% (-1.11\%) & 47.4\%  & \textbf{92.93\%} (-0.66\%) \\
-    \multicolumn{1}{c|}{} & LCCL$^*$~\cite{LCCL}&   & 64.0\%   & \textbf{91.68\%} (-1.06\%) & 62.1\%  & 92.81\% (-1.54\%) \\
-    \cmidr{2-7}
-    \multicolumn{1}{c|}{} & DSA (Ours) &  $\checkmark$   & 49.7\%   & 91.38\% \textbf{(-0.79\%)} & 47.8\%  & 92.91\% \textbf{(-0.22\%)} \\ \cmidr{1-7}
-    \multicolumn{1}{c|}{\multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}33.3\% ($\times 3)$\end{tabular}}} & SSL~\cite{grouplasso} &  $\checkmark$ & 34.6\%$^\dagger$ & 89.06\% (-3.11\%) & 38.1\%$^\dagger$ & 91.32\% (-1.80\%)  \\
-    \multicolumn{1}{c|}{} & MorphNet~\cite{morphnet} &  $\checkmark$ & 30.5\%  & 88.72\% (-3.45\%) & 39.7\%$^\dagger$ & 91.21\% (-1.91\%) \\\cmidr{2-7}
-    \multicolumn{1}{c|}{} & DSA (Ours)           &  $\checkmark$    & 32.5\%  & \textbf{90.24\% (-1.93\%)} & 32.6\% & \textbf{92.20\% (-0.92\%)} \\ \bottomrule
-    \end{tabular}
-    }
-    \begin{minipage}{0.98\textwidth}
-    {\small
-      $\dagger$: These pruned models' FLOPs of SSL and MorphNet are higher than the budget constraints, since
-      these regularization based methods lack explicit control of the resource consumption and even with carefully tuned hyperparameters, the resulting model might still violate the budget constraint. 
-      
-      $^*$: These methods' results are directly taken from their paper, and their accuracy drops are calculated based on their reported baseline accuracies.
-      }
-    \end{minipage}
-    \end{center}
-    \end{table}
 
   
   \subsection{ADMM-inspired Method For Budgeted Pruning}
@@ -422,48 +418,49 @@ Huazhong Yang\inst{1}\orcidID{0000-0003-2421-353X}}
   
   
   
-  
-  
-  \section{Experiments}
-  \label{sec:exp}
-  \subsection{Setup}
-  
-  
-  % \addtolength{\tabcolsep}{1pt}
-  % \begin{table}[bt]
-  % \caption{Pruning results of ResNet-18 and VGG-16 on CIFAR-10}
-  % \label{tab:res_cifar10_18}
-  % \begin{center}
-  %   \begin{tabular}{c@{\hskip 0.02\linewidth}cccc}
-  %     \toprule
-  % \multirow{2}{*}{Method} & \multicolumn{2}{c}{ResNet-18 (94.0\%)} & \multicolumn{2}{c}{VGG-16 (93.48\%)} \\\cmidrule(lr){2-3}\cmidrule(lr){4-5} 
-  %                         & Acc.            & FLOPs ratio          & Acc.       & FLOPs ratio      \\\midrule
-  % \multirow{2}{*}{AutoCompress~\cite{autocompress}}      & 93.91\%         & 4.7$\times$ (21.28\%)        & 93.22\%    &
-  % 3.1$\times$ (32.26\%)    \\
-  %   & -       &  -       & 88.78\%   &  14.0$\times$ (7.14\%) \\\cmidrule(lr){1-5} 
-  % \multirow{2}{*}{DSA (Ours)}               & {\bf 94.19\%}           & 4.5$\times$ (22.46\%)        &  {\bf 93.26\%}    & 3.2$\times$ (30.85\%)             \\
-  %           & 93.90\%          &  {\bf 5.7$\times$ (17.54\%)}     &  90.16\%    &     {\bf 20.4$\times$ (4.90\%)}   \\\bottomrule
-  % \end{tabular}
-  % \end{center}
-  % \end{table}
-  % \addtolength{\tabcolsep}{-1pt}
-  
-  We conduct the experiments on CIFAR-10 and ImageNet. 
-  For CIFAR-10, the batch size is 128, and an SGD optimizer with momentum 0.9, weight decay 4e-5 is used to train the model for 300 epochs. The learning rate is initialized to 0.05 
-  and decayed by 10 at epochs 120, 180, and 240. The differentiable sparsity allocation is conducted simultaneously with normal training after 20 epochs of warmup. 
-  As for ImageNet, we use an SGD optimizer (weight decay 4e-5, batch size 256) to optimize the models for 120 epochs. The learning rate is 0.1 and decayed by 10 at epochs 50, 80, 110. The first 15 epochs remains plain training without pruning. 
-  
-  In the sparsity allocation process, 10\% of the training data are used as the validation data for updating the keep ratios, while 90\% are used for tuning the weights. For the optimization of $\alphas$, the penalty parameters $\rho_1, \rho_2$ is set to 0.01, and the scaling coefficient of $L_v(\invas)$ is 1e+5. $z$ is updated for 50 steps with learning rate 1e-3 in the inner optimization. In practice, to reach the budget faster, we project the gradients of $\invas$ to be nonnegative. After each update of $\alphas$, the weights are tuned for 20 steps for adaption. After acquiring the budget, the whole training set is used for updating the weights. 
-  
-  In the differentiable pruning process, the $L_1$ norms of BN scales are chosen as the base importance scores $b_i =|\gamma_i|$. $\beta_1(\alpha)$ is found by solving Eq.~\ref{eq:beta1_eq} with the bisection method. 
-  $\beta_2(T)$ follows a increasing schedule: starts at 0.05 and gets multiplied by 1.1 every epoch. As $\beta_2 \to \infty$, the soft pruning process becomes a hard pruning process, and the inexactness $\inexactness$ goes to $0$.
-  
-  \subsection{Results on CIFAR-10 and ImageNet}
-  
-  On CIFAR-10,
-  for SSL~\cite{grouplasso} and MorphNet~\cite{morphnet}, the regularization coefficients on the convolution weights or BN scaling parameters are adjusted to meet various budget constraints.
-  % \footnote{Note that for MorphNet, we also tune the regularization coefficient to meet the budget constraint, instead of applying the channel expansion trick.}
-  
+    \begin{table}[H]
+    \caption{Pruning results of ResNet-20 and ResNet-56 on CIFAR-10. SSL and MorphNet are re-implemented with topological grouping. Accuracy drops for the referred results are calculated based on the reported baseline in their papers. \textbf{Headers}: ``TG'' stands for Topological Grouping; ``FLOPs Budget'' stands for the percentage of the pruned models' FLOPs compared to the full model}
+    \label{tab:res_cifar10}
+    \begin{center}
+    \resizebox{1.0\textwidth}{!}{
+    \begin{tabular}{ccccccc}
+    \toprule
+    \multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}FLOPs\\ Budget\end{tabular}} & \multirow{3}{*}{Method} &  \multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}TG\end{tabular}} & \multicolumn{2}{c}{ResNet-20} & \multicolumn{2}{c}{ResNet-56}\\ \cmidrule(lr){4-5} \cmidrule(lr){6-7} 
+    &  & & \begin{tabular}[c]{@{}c@{}}FLOPs\\ ratio\end{tabular} & Acc. (Acc. Drop)    & \begin{tabular}[c]{@{}c@{}}FLOPs\\ ratio\end{tabular} & Acc. (Acc. Drop)    \\ \midrule
+    \multicolumn{1}{c|}{\multirow{1}{*}{\begin{tabular}[c]{@{}c@{}} Baseline\end{tabular}}}   & \multicolumn{2}{c}{Ours} & 100 \%  & 92.17 \% & 100 \% & 93.12 \% \\ \cmidr{1-7}
+    \multicolumn{1}{c|}{\multirow{4}{*}{\begin{tabular}[c]{@{}c@{}}75\% \end{tabular}}}   & SSL~\cite{grouplasso} & $\checkmark$ & 73.8\%  & 91.08\% (-1.09\%)  & 69.0\% & 92.06\% (-1.06\%) \\
+    \multicolumn{1}{c|}{} & Variational$^*$~\cite{variational}& &  83.5\%  & 91.66\% (-0.41\%) & 79.7\% & 92.26\% (-0.78\%) \\
+    \multicolumn{1}{c|}{} & PFEC$^*$~\cite{pfec} &  \checkmark & -  & -  & 74.4\% & 91.31\% (-1.75\%)       \\
+    \multicolumn{1}{c|}{} & MorphNet~\cite{morphnet} & $\checkmark$& 74.9\%  & 90.64\% (-1.53\%) & 69.2\% & 91.71\% (-1.41\%)  \\\cmidr{2-7}
+    \multicolumn{1}{c|}{} & DSA (Ours)            & $\checkmark$ & 74.0\%  & \textbf{92.10\% (-0.07\%)} & 70.7\% & \textbf{93.08\% (-0.04\%)}  \\ \cmidr{1-7}
+    \multicolumn{1}{c|}{\multirow{8}{*}{50\% ($\times 2$)}} 
+                          & SSL~\cite{grouplasso} &$\checkmark$  & 51.8\%$^\dagger$  & 89.78 \% (-2.39\%) & 45.5\% & 91.22\% (-1.90\%) \\
+    \multicolumn{1}{c|}{} & MorphNet~\cite{morphnet} &  $\checkmark$   & 47.1\%  & 90.1\% (-2.07\%) & 51.9\%$^\dagger$  & 91.55\% (-1.57\%) \\
+    \multicolumn{1}{c|}{} & AMC$^*$~\cite{amc}  &  $\checkmark$  & - & - & 50\%   & 91.9\% (-0.9\%) \\
+    \multicolumn{1}{c|}{} & CP$^*$~\cite{cp}    &    & - & - & 50\%   & 91.8\% (-1.0\%) \\
+    \multicolumn{1}{c|}{} & Rethink$^*$~\cite{rethinking}  & & 60.0\% & 91.07\% (-1.34\%) & 50\%  & 93.07\% (-0.73\%) \\
+    \multicolumn{1}{c|}{} & SFP$^*$~\cite{sfp}  &    & 57.8\%  & 90.83\% (-1.37\%) & 47.4\% & 92.26\% (-1.33\%)       \\
+    \multicolumn{1}{c|}{} & FPGM$^*$~\cite{fpgm}&    & 57.8\%   & 91.09\% (-1.11\%) & 47.4\%  & \textbf{92.93\%} (-0.66\%) \\
+    \multicolumn{1}{c|}{} & LCCL$^*$~\cite{LCCL}&   & 64.0\%   & \textbf{91.68\%} (-1.06\%) & 62.1\%  & 92.81\% (-1.54\%) \\
+    \cmidr{2-7}
+    \multicolumn{1}{c|}{} & DSA (Ours) &  $\checkmark$   & 49.7\%   & 91.38\% \textbf{(-0.79\%)} & 47.8\%  & 92.91\% \textbf{(-0.22\%)} \\ \cmidr{1-7}
+    \multicolumn{1}{c|}{\multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}33.3\% ($\times 3)$\end{tabular}}} & SSL~\cite{grouplasso} &  $\checkmark$ & 34.6\%$^\dagger$ & 89.06\% (-3.11\%) & 38.1\%$^\dagger$ & 91.32\% (-1.80\%)  \\
+    \multicolumn{1}{c|}{} & MorphNet~\cite{morphnet} &  $\checkmark$ & 30.5\%  & 88.72\% (-3.45\%) & 39.7\%$^\dagger$ & 91.21\% (-1.91\%) \\\cmidr{2-7}
+    \multicolumn{1}{c|}{} & DSA (Ours)           &  $\checkmark$    & 32.5\%  & \textbf{90.24\% (-1.93\%)} & 32.6\% & \textbf{92.20\% (-0.92\%)} \\ \bottomrule
+    \end{tabular}
+    }
+    \begin{minipage}{0.98\textwidth}
+%    {\small
+      $\dagger$: These pruned models' FLOPs of SSL and MorphNet are higher than the budget constraints, since
+      these regularization based methods lack explicit control of the resource consumption and even with carefully tuned hyperparameters, the resulting model might still violate the budget constraint. 
+      
+      $^*$: These methods' results are directly taken from their paper, and their accuracy drops are calculated based on their reported baseline accuracies.
+ %     }
+    \end{minipage}
+    \end{center}
+    \end{table}
+
+      
   \begin{table}[bt]
     \begin{center}
       \caption{Pruning results on ImageNet. ``TG'' stands for Topological Grouping}
@@ -505,14 +502,57 @@ Huazhong Yang\inst{1}\orcidID{0000-0003-2421-353X}}
   \end{table}
   
   
+  \section{Experiments}
+  \label{sec:exp}
+  \subsection{Setup}
+  
+  
+  % \addtolength{\tabcolsep}{1pt}
+  % \begin{table}[bt]
+  % \caption{Pruning results of ResNet-18 and VGG-16 on CIFAR-10}
+  % \label{tab:res_cifar10_18}
+  % \begin{center}
+  %   \begin{tabular}{c@{\hskip 0.02\linewidth}cccc}
+  %     \toprule
+  % \multirow{2}{*}{Method} & \multicolumn{2}{c}{ResNet-18 (94.0\%)} & \multicolumn{2}{c}{VGG-16 (93.48\%)} \\\cmidrule(lr){2-3}\cmidrule(lr){4-5} 
+  %                         & Acc.            & FLOPs ratio          & Acc.       & FLOPs ratio      \\\midrule
+  % \multirow{2}{*}{AutoCompress~\cite{autocompress}}      & 93.91\%         & 4.7$\times$ (21.28\%)        & 93.22\%    &
+  % 3.1$\times$ (32.26\%)    \\
+  %   & -       &  -       & 88.78\%   &  14.0$\times$ (7.14\%) \\\cmidrule(lr){1-5} 
+  % \multirow{2}{*}{DSA (Ours)}               & {\bf 94.19\%}           & 4.5$\times$ (22.46\%)        &  {\bf 93.26\%}    & 3.2$\times$ (30.85\%)             \\
+  %           & 93.90\%          &  {\bf 5.7$\times$ (17.54\%)}     &  90.16\%    &     {\bf 20.4$\times$ (4.90\%)}   \\\bottomrule
+  % \end{tabular}
+  % \end{center}
+  % \end{table}
+  % \addtolength{\tabcolsep}{-1pt}
+  
+  We conduct the experiments on CIFAR-10 and ImageNet. 
+  For CIFAR-10, the batch size is 128, and an SGD optimizer with momentum 0.9, weight decay 4e-5 is used to train the model for 300 epochs. The learning rate is initialized to 0.05 
+  and decayed by 10 at epochs 120, 180, and 240. The differentiable sparsity allocation is conducted simultaneously with normal training after 20 epochs of warmup. 
+  As for ImageNet, we use an SGD optimizer (weight decay 4e-5, batch size 256) to optimize the models for 120 epochs. The learning rate is 0.1 and decayed by 10 at epochs 50, 80, 110. The first 15 epochs remains plain training without pruning. 
+  
+  In the sparsity allocation process, 10\% of the training data are used as the validation data for updating the keep ratios, while 90\% are used for tuning the weights. For the optimization of $\alphas$, the penalty parameters $\rho_1, \rho_2$ is set to 0.01, and the scaling coefficient of $L_v(\invas)$ is 1e+5. $z$ is updated for 50 steps with learning rate 1e-3 in the inner optimization. In practice, to reach the budget faster, we project the gradients of $\invas$ to be nonnegative. After each update of $\alphas$, the weights are tuned for 20 steps for adaption. After acquiring the budget, the whole training set is used for updating the weights. 
+  
+  In the differentiable pruning process, the $L_1$ norms of BN scales are chosen as the base importance scores $b_i =|\gamma_i|$. $\beta_1(\alpha)$ is found by solving Eq.~\ref{eq:beta1_eq} with the bisection method. 
+  $\beta_2(T)$ follows a increasing schedule: starts at 0.05 and gets multiplied by 1.1 every epoch. As $\beta_2 \to \infty$, the soft pruning process becomes a hard pruning process, and the inexactness $\inexactness$ goes to $0$.
+  
+  \subsection{Results on CIFAR-10 and ImageNet}
+  
+  On CIFAR-10,
+  for SSL~\cite{grouplasso} and MorphNet~\cite{morphnet}, the regularization coefficients on the convolution weights or BN scaling parameters are adjusted to meet various budget constraints.
+  % \footnote{Note that for MorphNet, we also tune the regularization coefficient to meet the budget constraint, instead of applying the channel expansion trick.}
+
+  
   Table.~\ref{tab:res_cifar10} and Fig.~\ref{fig:results_cifar10} show the results of pruning ResNet-20 and ResNet-56 on CIFAR-10. The pruned models obtained by \dsa meet the budget constraints with smaller accuracy drops than the baseline methods. 
   Compared with the regularization based methods (e.g., SSL and MorphNet), due to the explicit budget modeling, \dsa guarantees that the resulting models meet different budget constraints, without hyperparameter trials. Compared with the iterative pruning methods (e.g., AMC), DSA allocates the sparsity in a gradient-based way and is more efficient (See Sec.~\ref{sec:analysis}).
   We also apply \dsa to compress ResNet-18 and VGG-16, and the results are included in Appendix Table. 1 and Fig. 2. It shows that DSA outperforms the recent work based on a discrete search~\cite{autocompress}. For ResNet-18, \dsa achieves 94.19\% versus 93.91\% of the baseline with roughly the same FLOPs ratio. For VGG-16, \dsa achieves 90.16\% with 20.4$\times$ FLOPs reduction, which is significantly better than the baseline~\cite{autocompress} (88.78\% with $14.0\times$ FLOPs reduction).
   
   
   
-  Table~\ref{tab:res_imgnet} shows the results of applying DSA to prune ResNet-18 and ResNet-50 on ImageNet. The official pre-trained models provided by PyTorch~\cite{pytorch19nips} are used as the baseline models. 
-  As could be seen, DSA consistently outperforms other methods across different FLOPs ratios and network structure. For example, \dsa could achieve a small accuracy drop of 1.11\% while keeping 60\% FLOPs of ResNet-18, which is significantly better than the baselines. Note that we take the ```from-scratch'' results of FPGM, since \dsa also works in the ``pruning-from-scratch'' manner.
+  Table~\ref{tab:res_imgnet} shows the results of applying DSA to prune ResNet-18 and ResNet-50 on ImageNet. 
+  % The official pre-trained models provided by PyTorch~\cite{pytorch19nips} are used as the baseline models. 
+  As could be seen, DSA consistently outperforms other methods across different FLOPs ratios and network structure. For example, \dsa could achieve a small accuracy drop of 1.11\% while keeping 60\% FLOPs of ResNet-18, which is significantly better than the baselines. 
+  % Note that we take the ```from-scratch'' results of FPGM, since \dsa also works in the ``pruning-from-scratch'' manner.
   
   
   
@@ -535,20 +575,15 @@ Huazhong Yang\inst{1}\orcidID{0000-0003-2421-353X}}
       \label{fig:sens_res18}
     \end{center}
   \end{figure*}
-  
-  \begin{figure}[ht]
-    \begin{center}
-      \includegraphics[width=0.95\linewidth]{figs/heat.pdf}
-      \caption{The comparison between the normalized sensitivity, and the sparsity allocation of \dsa and SSL~\cite{grouplasso} for ResNet-18 on CIFAR-10 }
-      \label{fig:heat}
-    \end{center}
-  \end{figure}
-  
+
   \subsubsection{Computational Efficiency}
   
   
-  \cite{rethinking} observes that once the pruned structure is acquired, the compressed model could achieve similar accuracy no matter it is trained from scratch or fine-tuned from the inherited weights. Therefore, starting with an over-parameterized pre-trained model might not be necessary for pruning. Unlike most iterative methods for inter-layer sparsity allocation, \dsa could work in a ``pruning from scratch'' manner, without hurting the quality of sparsity allocation. 
+  % \cite{rethinking} observes that once the pruned structure is acquired, the compressed model could achieve similar accuracy no matter it is trained from scratch or fine-tuned from the inherited weights. 
+  % Therefore, starting with an over-parameterized pre-trained model might not be necessary for pruning. Unlike most iterative methods for inter-layer sparsity allocation, \dsa could work in a ``pruning from scratch'' manner, without hurting the quality of sparsity allocation. 
   
+  Some recent studies~\cite{rethinking,PFS} suggest that starting with a pre-trained model might not be necessary for pruning. Unlike current methods which rely on a pre-trained model, \dsa could work in a ``pruning from scratch'' manner. 
+
   As shown in Fig.~\ref{fig:aif_process}, traditional budgeted pruning consists of 3 stages: pre-training, sparsity allocation, and finetuning. 
   The iterative pruning methods conduct hundreds of search-evaluation steps for sparsity allocation, e.g., AMC takes about 3 GPU hours for pruning ResNet-56 on CIFAR-10~\cite{PFS}. After learning the structure, the finetuning stage takes 100\~{}200 epochs for CIFAR-10 (60 epochs for ImageNet), which accounts for about 2\~{}3 GPU hours for ResNet-56 on CIFAR-10 and 150 GPU hours for ResNet-18 on ImageNet. Moreover, these two stages should be repeated for multiple rounds to achieve the maximum pruning rates~\cite{netadapt,autocompress}, thus further increase the computational costs by several times. 
   What's more, these methods need to be applied to the pre-trained models, and the pre-training stage takes about 300 and 120 epochs for models on CIFAR-10 and ImageNet. To summarize, the 3 stages can take up to 10 GPU hours for ResNet-56 on CIFAR-10, and 450 GPU hours for ResNet-18 on ImageNet. 
@@ -564,22 +599,42 @@ Huazhong Yang\inst{1}\orcidID{0000-0003-2421-353X}}
   
   
   Fig.~\ref{fig:heat} presents the sparsity allocation (FLOPs budget 25\%) for ResNet-18 on CIFAR-10 obtained by \dsa and SSL~\cite{grouplasso}.
-  We can see that the sparsity allocation of DSA coordinates better with sensitivity analysis. The results show that the first layer for primary feature extraction should not be pruned too aggressively (group A), so do shortcut layers that are responsible for information transmission across stages (groups A, D, G, J). The strided convolutions are relatively more sensitive, and more channels should be kept (groups E, H). In conclusion, DSA obtains reasonable sparsity allocation that matches empirical knowledge~\cite{liu2019metapruning,rethinking}, with lower computational cost than iterative pruning methods.
+  % We can see that the sparsity allocation of DSA coordinates better with sensitivity analysis. 
+  The results show that the first layer for primary feature extraction should not be pruned too aggressively (group A), 
+  so do shortcut layers that are responsible for information transmission across stages (groups A, D, G, J). The strided convolutions are relatively more sensitive, 
+  and more channels should be kept (groups E, H). 
+  In conclusion, DSA obtains reasonable sparsity allocation that matches empirical knowledge~\cite{liu2019metapruning,rethinking}, with lower computational cost than iterative pruning methods.
   
+    
+  \begin{figure}[hb]
+    \begin{center}
+      \includegraphics[width=0.9\linewidth]{figs/heat.pdf}
+      \caption{The comparison between the normalized sensitivity, and the sparsity allocation of \dsa and SSL~\cite{grouplasso} for ResNet-18 on CIFAR-10 }
+      \label{fig:heat}
+    \end{center}
+  \end{figure}
   
+
   \section{Conclusion}
   \label{sec:conclusion}
-  In this paper, we propose Differentiable Sparsity Allocation (DSA), a more efficient method for budgeted pruning. Unlike traditional discrete search methods, DSA optimizes the sparsity allocation in a \textit{gradient-based way}.  To enable the gradient-based sparsity allocation, we propose a novel \textit{differentiable pruning process},
-  and verify that the magnitudes of the gradients w.r.t. the keep ratios align well with the layer-wise sensitivity. 
+  In this paper, we propose Differentiable Sparsity Allocation (DSA), a more efficient method for budgeted pruning. Unlike traditional discrete search methods, DSA optimizes the sparsity allocation in a \textit{gradient-based way}.  To enable the gradient-based sparsity allocation, we propose a novel \textit{differentiable pruning process}.
+%  and verify that the magnitudes of the gradients w.r.t. the keep ratios align well with the layer-wise sensitivity. 
   Experimental results show that DSA could achieve superior performance than iterative pruning methods, with significantly lower training costs.
   
+  \section*{Acknowledgments}
+  This work was supported by National Natural Science Foundation of China (No. 61832007, 61622403, 61621091, U19B2019), 
+  Beijing National Research Center for Information Science and Technology (BNRist). The authors thank Novauto for the support.
+
+
   \clearpage
   
+ 
   
   \bibliographystyle{splncs04}
   \bibliography{egbib}{}
   
-  
+  \clearpage
+
   \pagestyle{headings}
   \title{Appendices for DSA: More Efficient Budgeted Pruning via Differentiable Sparsity Allocation}
   \author{}

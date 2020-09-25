@@ -1,1 +1,1 @@
-../../../scripts/compile.sh
+../../../scripts/sh/compile.sh
