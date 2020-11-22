@@ -133,15 +133,15 @@ let NERDTreeMinimalUI=0
 let NERDTreeDirArrows=1
  
 "let g:newrw_ftp_cmd = 'lftp'
-let g:netrw_altv          = 1
-let g:netrw_fastbrowse    = 2
-let g:netrw_keepdir       = 1
-let g:netrw_liststyle     = 3
-let g:netrw_retmap        = 1
-let g:netrw_silent        = 1
-let g:netrw_special_syntax= 1
-let g:netrw_browse_split = 3
-let g:netrw_banner = 0
+" let g:netrw_altv          = 1
+" let g:netrw_fastbrowse    = 2
+" let g:netrw_keepdir       = 1
+" let g:netrw_liststyle     = 3
+" let g:netrw_retmap        = 1
+" let g:netrw_silent        = 1
+" let g:netrw_special_syntax= 1
+" let g:netrw_browse_split = 3
+" let g:netrw_banner = 0
 " ------- NerdTree End ---------------
  
 " ---- Airline 
@@ -174,6 +174,12 @@ imap [] []<Left>
 imap {} {}<Left>
 imap "" ""<Left>
 
+noremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+
+cmap w!! w !sudo tee > /dev/null %
+
+set hls
 
 " au BufWritePre * :set binary | set noeol
 " au BufWritePost * :set nobinary | set eol

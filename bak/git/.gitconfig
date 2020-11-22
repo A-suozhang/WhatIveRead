@@ -3,3 +3,12 @@
 	name = A-suozhang
 [credential]
 	helper = store
+[core]
+	editor = vim
+[color]
+	ui = true
+	pager = true
+[alias]
+	st = status
+	logl = log --oneline
+	logg = log --graph
