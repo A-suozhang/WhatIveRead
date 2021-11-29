@@ -7,18 +7,18 @@ call vundle#begin()
  
 " 让 Vundle 管理 Vundle，必须
 Plugin 'gmarik/Vundle.vim'
-Plugin 'rking/ag.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'Yggdroot/indentLine'
-Plugin 'scrooloose/syntastic'
-Plugin 'scrooloose/nerdtree'
-Plugin 'majutsushi/tagbar'
-Plugin 'bling/vim-airline'
-Plugin 'jrosiek/vim-mark'
+" Plugin 'rking/ag.vim'
+" Plugin 'kien/ctrlp.vim'
+" Plugin 'Yggdroot/indentLine'
+" Plugin 'scrooloose/nerdtree'
+" Plugin 'majutsushi/tagbar'
+" Plugin 'bling/vim-airline'
+" Plugin 'jrosiek/vim-mark'
 Plugin 'bigeagle/molokai'
-Plugin 'aceofall/gtags.vim'
-Plugin 'hdima/python-syntax'
-Plugin 'hynek/vim-python-pep8-indent'
+" Plugin 'aceofall/gtags.vim'
+" Plugin 'hdima/python-syntax'
+" Plugin 'hynek/vim-python-pep8-indent'
+Plugin 'preservim/nerdcommenter'
  
 call vundle#end()
  
@@ -34,7 +34,7 @@ filetype on
 filetype plugin on
 filetype indent on
  
-set list lcs=tab:\¦\   " 使用 ¦ 来显示 tab 缩进
+" set list lcs=tab:\¦\   " 使用 ¦ 来显示 tab 缩进
  
 " 缩进相关
 set shiftwidth=4
@@ -75,11 +75,11 @@ set fencs=utf-8,gbk,gb18030,gb2312,cp936,usc-bom,euc-jp
 set enc=utf-8
  
 " 语法折叠
-set foldmethod=syntax
-set foldcolumn=0  " 设置折叠区域的宽度
-set foldlevel=100
+" set foldmethod=syntax
+" set foldcolumn=0  " 设置折叠区域的宽度
+" set foldlevel=100
 " 用空格键来开关折叠
-nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+" nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
  
  
 set smartcase
@@ -183,3 +183,5 @@ set hls
 
 " au BufWritePre * :set binary | set noeol
 " au BufWritePost * :set nobinary | set eol
+"
+inoremap ipdb<Leader> import ipdb; ipdb.set_trace()
